@@ -165,6 +165,13 @@ module.exports = {
       }),
     ];
   },
+  devServer: {
+    port: 4000,
+    open: true,
+    proxy: {
+        "/": "http://localhost"
+    }
+  },
   plugins: [
     // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

@@ -21,8 +21,15 @@ class App extends Component {
 
   state = {
     searchTerm: '',
-    searchUrl: ''
+    searchUrl: '',
+    username: null,
   };
+
+  componentDidMount() {
+    fetch('http://localhost:4000/api/getUsername')
+      .then(res=>res.json())
+      .then(user=>this.setState({username: user.username}));
+  }
 
   handleKeyUp(e) {
     if (e.key === 'Enter' && this.state.searchTerm !== '') {
@@ -36,6 +43,7 @@ class App extends Component {
   }
 
   render() {
+    const username = this.state.username;
     return (
       <div>
         <header className={style.Header}>
@@ -53,6 +61,9 @@ class App extends Component {
         <TitleList title="Most watched in Horror" url='genre/27/movies?sort_by=popularity.desc&page=1' />
         <TitleList title="Sci-Fi greats" url='genre/878/movies?sort_by=popularity.desc&page=1' />
         <TitleList title="Comedy magic" url='genre/35/movies?sort_by=popularity.desc&page=1' />
+        <div>
+          {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
+        </div>
       </div>
     );
   }
