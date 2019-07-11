@@ -32,9 +32,9 @@ class App extends Component {
       .then(res=>res.json())
       .then(user=>this.setState({username: user.username}));
     
-    fetch('http://localhost:4000/getData')
+    /*fetch('http://localhost:4000/getData')
       .then(res=>res.json())
-      .then(video=>console.log(video));
+      .then(video=>console.log(video));*/
   }
 
   handleKeyUp(e) {
@@ -71,7 +71,7 @@ class App extends Component {
         </div>
         <div>
           {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-          <VideoPopup />
+          <VideoPopup title="Harry Poter" category="Fantasy" uploaded_date="2017/08/11" youtube_id="R2zNRrOXbPY"/>
         </div>
       </div>
     );

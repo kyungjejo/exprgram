@@ -20,6 +20,19 @@ router.get('/getData', (req, res) => {
         }
     });
 });
+
+router.get('/getVideoSubtitles', (req, res) => {
+    db.query("select subtitle_list from video_video where youtube_id = ?", [req.query.youtube_id], (err, rows) => {
+        if (!err) {
+            rows = eval(rows[0].subtitle_list)
+            res.send(rows);
+        } else {
+            console.log(`query error : ${err}`);
+            // res.send(err);
+            res.send(err);
+        } 
+    });
+});
     
     
 module.exports = router;

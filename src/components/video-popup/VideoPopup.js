@@ -21,37 +21,40 @@ import { relative } from 'path';
 );*/
 
 export default class VideoPopup extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            subtitle: []
+        }
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${this.props.youtube_id}`, {
+            method: 'GET',
+        }).then(res=>res.json())
+        //.then(res=>console.log(res))
+        .then(subtitle=>this.setState({subtitle: subtitle}));
+    }
+
     render() {
+        console.log(this.state.subtitle);
         return (
             <div className={style.VideoPopup}>
                 <div id="header" className={style.Header}>
-                    <h1 style={{marginLeft: '15px'}}>Title - Category</h1>
-                    <h1 style={{float: 'right', marginRight: '15px'}}>Uploaded Date: 2017/08/11</h1>
+                    <h1 style={{marginLeft: '15px'}}>{this.props.title} - {this.props.category}</h1>
+                    <h1 style={{float: 'right', marginRight: '15px'}}>Uploaded Date: {this.props.uploaded_date}</h1>
                 </div>
                 <div id="video" className={style.Video}>
                     <div className={style.VideoPlayer}>
-                        <object type="text/html" width="100%" height="100%" data="//www.youtube.com/embed/R2zNRrOXbPY" allowFullScreen></object>
+                        <object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>
                     </div>
                     <div className={style.VideoSubtitle}>
                         <br/>
                         <h1>Subtitle</h1> <br/>
                         <div className={style.subtitles}>
-                            <p><span>5.58</span><span>aww..</span></p>
-                            <p><span>12.54</span><span>Who gets his wand?</span></p>
-                            <p><span>18.76</span><span>I'm only going to ask you once more goblin! think of very very carefully before you answer</span></p>
-                            <p><span>26.26</span><span>I don't know</span></p>
-                            <p><span>5.58</span><span>aww..</span></p>
-                            <p><span>12.54</span><span>Who gets his wand?</span></p>
-                            <p><span>18.76</span><span>I'm only going to ask you once more goblin! think of very very carefully before you answer</span></p>
-                            <p><span>26.26</span><span>I don't know</span></p>
-                            <p><span>5.58</span><span>aww..</span></p>
-                            <p><span>12.54</span><span>Who gets his wand?</span></p>
-                            <p><span>18.76</span><span>I'm only going to ask you once more goblin! think of very very carefully before you answer</span></p>
-                            <p><span>26.26</span><span>I don't know</span></p>
-                            <p><span>5.58</span><span>aww..</span></p>
-                            <p><span>12.54</span><span>Who gets his wand?</span></p>
-                            <p><span>18.76</span><span>I'm only going to ask you once more goblin! think of very very carefully before you answer</span></p>
-                            <p><span>26.26</span><span>I don't know</span></p>
+                            {this.state.subtitle.map((sub, i) => {
+                                return (<p><span>{sub[0]}</span><span>{sub[1]}</span></p>);
+                            })}
                         </div>
                     </div>
                 </div>
