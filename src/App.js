@@ -6,7 +6,7 @@ import Hero from './components/hero';
 import Logo from './components/logo';
 import UserProfile from './components/user-profile';
 import Navigation from './components/navigation';
-//import VideoPopup from './components/video-popup';
+import VideoPopup from './components/video-popup';
 import style from './App.module.scss';
 import './global.css';
 
@@ -71,7 +71,7 @@ class App extends Component {
         </div>
         <div>
           {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-          {/*<VideoPopup />*/}
+          <VideoPopup />
         </div>
       </div>
     );
