@@ -64,6 +64,10 @@ export default class TitleList extends Component {
       this.loadContent();
       this.setState({ mounted: true });
     }
+
+    /*fetch('http://localhost:4000/getData')
+      .then(res=>res.json())
+      .then(videos=>this.setState({data: videos}));*/
   }
 
   render() {
@@ -88,6 +92,21 @@ export default class TitleList extends Component {
         }
       });
     }
+    /*
+    var ids = '';
+    if (this.state.data.results) {
+      ids = this.state.data.results.map(function (id, i) {
+        if (i < 5) {
+          return (
+            <Item key={id} title={id} score="test" overview="test" backdrop="test" />
+          );
+
+        } else {
+          return (<div key={id}></div>);
+        }
+      });
+    }
+    */
 
     return (
       <div

@@ -6,6 +6,7 @@ import Hero from './components/hero';
 import Logo from './components/logo';
 import UserProfile from './components/user-profile';
 import Navigation from './components/navigation';
+//import VideoPopup from './components/video-popup';
 import style from './App.module.scss';
 import './global.css';
 
@@ -23,12 +24,17 @@ class App extends Component {
     searchTerm: '',
     searchUrl: '',
     username: null,
+    video: null,
   };
 
   componentDidMount() {
     fetch('http://localhost:4000/api/getUsername')
       .then(res=>res.json())
       .then(user=>this.setState({username: user.username}));
+    
+    fetch('http://localhost:4000/getData')
+      .then(res=>res.json())
+      .then(video=>console.log(video));
   }
 
   handleKeyUp(e) {
@@ -54,16 +60,20 @@ class App extends Component {
           </div>
           <UserProfile />
         </header>
-        <Hero />
-        <TitleList title="Top TV picks for Jack" url='discover/tv?sort_by=popularity.desc&page=1' />
-        <TitleList title="Search Results" url={this.state.searchUrl} />
-        <TitleList title="Trending now" url='discover/movie?sort_by=popularity.desc&page=1' />
-        <TitleList title="Most watched in Horror" url='genre/27/movies?sort_by=popularity.desc&page=1' />
-        <TitleList title="Sci-Fi greats" url='genre/878/movies?sort_by=popularity.desc&page=1' />
-        <TitleList title="Comedy magic" url='genre/35/movies?sort_by=popularity.desc&page=1' />
+        {/*<Hero />*/}
+        <div style={{marginTop: '100px'}}>
+          <TitleList title="Greeting" url='discover/tv?sort_by=popularity.desc&page=1' />
+          {/*<TitleList title="Search Results" url={this.state.searchUrl} />*/}
+          <TitleList title="School" url='discover/movie?sort_by=popularity.desc&page=1' />
+          <TitleList title="When you meet first" url='genre/27/movies?sort_by=popularity.desc&page=1' />
+          <TitleList title="Strong Voice" url='genre/878/movies?sort_by=popularity.desc&page=1' />
+          {/*<TitleList title="" url='genre/35/movies?sort_by=popularity.desc&page=1' />*/}
+        </div>
         <div>
           {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
+          {/*<VideoPopup />*/}
         </div>
+        <VideoPopup />
       </div>
     );
   }

@@ -9,9 +9,10 @@ router.get('/api/getUsername', (req, res, next) => {
 });
 
 router.get('/getData', (req, res) => {
-    db.query("select * from video_video", (err, rows) => {
+    db.query("select youtube_id from video_video", (err, rows) => {
         if (!err) {
             res.send(rows);
+            console.log(rows);
         } else {
             console.log(`query error : ${err}`);
             // res.send(err);
