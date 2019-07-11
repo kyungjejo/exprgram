@@ -5,6 +5,7 @@ import ReactDom from 'react-dom';
 import style from './VideoPopup.module.scss';
 import '../../global.css';
 import { relative } from 'path';
+import YouTube from 'react-youtube';
 
 /*const VideoPopup = () => (
     <Modal trigger={<Button>Show Modal</Button>}>
@@ -24,8 +25,15 @@ export default class VideoPopup extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            subtitle: []
+            subtitle: [],
+            currentTime: 1
         }
+    }
+
+    GetTime() {
+        setInterval(() => {
+            this.setState({currentTime: event.target.getCurrentTime()})
+        }, 1000);
     }
 
     componentDidMount() {
@@ -38,6 +46,11 @@ export default class VideoPopup extends Component {
 
     render() {
         console.log(this.state.subtitle);
+        const opts = {
+            height: '100%',
+            width: '100%'
+        };
+
         return (
             <div className={style.VideoPopup}>
                 <div id="header" className={style.Header}>
@@ -46,7 +59,9 @@ export default class VideoPopup extends Component {
                 </div>
                 <div id="video" className={style.Video}>
                     <div className={style.VideoPlayer}>
-                        <object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>
+                        <YouTube videoId={this.props.youtube_id} opts={opts}/>
+                        {this.GetTime()}
+                        {/*<object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>*/}
                     </div>
                     <div className={style.VideoSubtitle}>
                         <br/>
@@ -61,6 +76,7 @@ export default class VideoPopup extends Component {
                 <div id="context-form" className={style.Context}>
                     <br/>
                     <h1>Context</h1> <br/>
+                    <p>{this.state.currentTime}</p>
                     <div className={style.contextform}>
                         {/*<form>
                             what <input type="text" />
