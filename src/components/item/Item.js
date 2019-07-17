@@ -17,43 +17,75 @@ import '../../global.css';
  * />
  */
 export default class Item extends Component {
-  static defaultProps = {
+  /*static defaultProps = {
     title: 'Demo Item',
     rating: 6,
     overview: 'This demo item brought you by Bit team',
     backdrop: 'http://image.tmdb.org/t/p/original/aok7IhrbA83josNz9Dqh8tNA0Ao.jpg',
-  }
+  }*/
 
-  static propTypes = {
+  //static propTypes = {
     /**
      * @property {string} title item's title
      */
-    title: PropTypes.string,
+  //  title: PropTypes.string,
 
     /**
      * @property {number} score item's score (1-10 float range)
      */
-    score: PropTypes.number,
+  //  score: PropTypes.number,
 
     /**
      * @property {string} overview text for describing the item's overview
      */
-    overview: PropTypes.string,
+  //  overview: PropTypes.string,
 
     /**
      * @property {string} backdrop thumbnail image for item
      */
-    backdrop: PropTypes.string
+  //  backdrop: PropTypes.string
+  //}
+
+  constructor(props) {
+    super(props)
+    this.state = {
+        title: "",
+        genre: [],
+        length: 0,
+        upload_date: "",
+        thumbnails: "",
+        category: "",
+    }
+  }
+
+  componentDidMount() {
+    fetch(`http://localhost:4000/getVideo?youtube_id=${this.props.youtube_id}`, {
+        method: 'GET',
+    }).then(res=>res.json())
+    //.then(res=>res['video_genre'] = eval(res.video_genre))
+    //.then(res=>console.log(res))
+    .then(res=>this.setState({title: res.video_title, genre: (res.video_genre), length: res.video_length, upload_date: res.upload_date, thumbnails: (res.video_thumbnails), category: res.video_category}));
   }
 
   render() {
-    const { backdrop, title, score, overview } = this.props;
+    /*const { backdrop, title, score, overview } = this.props;
     return (
       <div className={style.Item} style={{ backgroundImage: 'url(' + backdrop + ')' }} >
         <div className={style.overlay}>
           <div className={style.title}>{title}</div>
           <div className={style.rating}>{score} / 10</div>
           <div className={style.plot}>{overview}</div>
+          <ListToggle />
+        </div>
+      </div>
+    );*/
+
+    return (
+      <div className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }} >
+        <div className={style.overlay}>
+          <div className={style.title}>{this.state.title}</div>
+          <div className={style.rating}>5 / 10</div>
+          <div className={style.plot}>test</div>
           <ListToggle />
         </div>
       </div>

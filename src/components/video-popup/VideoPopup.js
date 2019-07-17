@@ -26,13 +26,50 @@ export default class VideoPopup extends Component {
         super(props)
         this.state = {
             subtitle: [],
-            currentTime: 1
+            currentTime: 0
         }
+        this._onPlayGetCurrentTime = this._onPlayGetCurrentTime.bind(this);
     }
 
-    GetTime() {
+    _onPlayGetCurrentTime(event) {
         setInterval(() => {
-            this.setState({currentTime: event.target.getCurrentTime()})
+            let time = event.target.getCurrentTime();
+            this.setState({currentTime: time});
+
+            let subtitle = [];
+
+            for(let i=0; i < this.state.subtitle.length; i++) {
+                let current_start_time = this.state.subtitle[i][0] * 1;
+                let next_start_time = 0;
+
+                try {
+                    next_start_time = this.state.subtitle[i+1][0] * 1;
+                }
+                catch(e) {
+                    next_start_time = current_start_time + 10;
+                }
+
+                if(current_start_time < time && time < next_start_time) {
+                    subtitle.push([this.state.subtitle[i][0], this.state.subtitle[i][1], "rgba(255, 255, 0, 0.7)", "current"]);
+                }
+                else {
+                    subtitle.push([this.state.subtitle[i][0], this.state.subtitle[i][1], "transparent", "none"]);
+                }
+
+                let subtitle_div = document.getElementById("subtitle");
+                let current_subtitle = "";
+
+                try {
+                    current_subtitle = document.getElementById("current");
+                    subtitle_div.scrollTop = current_subtitle.offsetTop - 50;
+                }
+                catch(e) {
+                    current_subtitle = "";
+                }
+                //console.log(current_subtitle);
+                
+            }
+            this.setState({subtitle: subtitle});
         }, 1000);
     }
 
@@ -40,12 +77,16 @@ export default class VideoPopup extends Component {
         fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${this.props.youtube_id}`, {
             method: 'GET',
         }).then(res=>res.json())
-        //.then(res=>console.log(res))
         .then(subtitle=>this.setState({subtitle: subtitle}));
     }
 
+    renderTime() {
+        return (
+            <p>{this.state.currentTime}</p>
+        );
+    }
+
     render() {
-        console.log(this.state.subtitle);
         const opts = {
             height: '100%',
             width: '100%'
@@ -59,16 +100,18 @@ export default class VideoPopup extends Component {
                 </div>
                 <div id="video" className={style.Video}>
                     <div className={style.VideoPlayer}>
-                        <YouTube videoId={this.props.youtube_id} opts={opts}/>
-                        {this.GetTime()}
+                        <YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts} onPlay={this._onPlayGetCurrentTime}/>
+                        {/*<YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts}/>*/}
                         {/*<object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>*/}
                     </div>
-                    <div className={style.VideoSubtitle}>
+                    <div id="subtitle" className={style.VideoSubtitle}>
                         <br/>
                         <h1>Subtitle</h1> <br/>
                         <div className={style.subtitles}>
                             {this.state.subtitle.map((sub, i) => {
-                                return (<p><span>{sub[0]}</span><span>{sub[1]}</span></p>);
+                                return (
+                                    <p id={sub[3]} style={{backgroundColor: sub[2]}}><span>{sub[0]}</span><span>{sub[1]}</span></p>
+                                );
                             })}
                         </div>
                     </div>
@@ -85,7 +128,7 @@ export default class VideoPopup extends Component {
                     </div>
                 </div>
             </div>
-        );
+        );   
     }
 }
 

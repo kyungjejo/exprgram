@@ -14,31 +14,82 @@ import '../../global.css';
  *    url="discover/movie?sort_by=popularity.desc&page=1"
  * />
  */
-export default class TitleList extends Component {
-  apiKey = '87dfa1c669eea853da609d4968d294be';
 
+export default class TitleList extends Component {
+  constructor(props) {
+      super(props)
+      this.state = {
+        videos: [],
+        mounted: false
+      }
+  }
+
+  componentDidMount() {
+    fetch(`http://localhost:4000/getVideoCollection`, {
+        method: 'GET',
+    }).then(res=>res.json())
+    //.then(res=>console.log(res))
+    .then(res=>this.setState({videos: res, mounted: true}));
+  }
+
+  render() {
+    var ids = '';
+    console.log(this.state.videos);
+    if (this.state.videos) {
+      ids = this.state.videos.map(function (youtube_id, i) {
+          var youtube_id = youtube_id;
+
+          return (
+            <Item key={youtube_id.id} youtube_id={youtube_id} />
+          );
+      });
+    }
+    console.log(ids);
+
+    return (
+      <div
+        ref={(r) => { this.titleCategory = r; }}
+        className={style.TitleList} data-loaded={this.state.mounted}>
+        <div className={style.Title}>
+          <h1>{this.props.title}</h1>
+          <div className={style['titles-wrapper']}>
+            {ids}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+//export default class TitleList extends Component {
+//  apiKey = '87dfa1c669eea853da609d4968d294be';
+
+/*
   static defaultProps = {
     title: "Trending now",
     url: 'discover/movie?sort_by=popularity.desc&page=1'
   }
+*/
 
-  static PropTypes = {
+//  static PropTypes = {
     /**
      * @property {string} url API URL from themoviedb.com
      */
-    url: PropTypes.string,
+//    url: PropTypes.string,
 
     /**
      * @property {string} title List's title
      */
-    title: PropTypes.string
-  }
+//    title: PropTypes.string
+//  }
 
+/*
   state = {
     data: [],
     mounted: false
   };
+*/
 
+/*
   loadContent() {
     var requestUrl = 'https://api.themoviedb.org/3/' + this.props.url + '&api_key=' + this.apiKey;
     fetch(requestUrl).then((response) => {
@@ -49,7 +100,9 @@ export default class TitleList extends Component {
       console.log("There has been an error");
     });
   }
+*/
 
+/*
   componentWillReceiveProps(nextProps) {
     if (nextProps.url !== this.props.url && nextProps.url !== '') {
       this.setState({ mounted: true, url: nextProps.url }, () => {
@@ -58,18 +111,18 @@ export default class TitleList extends Component {
 
     }
   }
+*/
 
+/*
   componentDidMount() {
     if (this.props.url !== '') {
       this.loadContent();
       this.setState({ mounted: true });
     }
-
-    /*fetch('http://localhost:4000/getData')
-      .then(res=>res.json())
-      .then(videos=>this.setState({data: videos}));*/
   }
+*/
 
+/*
   render() {
     var titles = '';
     if (this.state.data.results) {
@@ -92,21 +145,6 @@ export default class TitleList extends Component {
         }
       });
     }
-    /*
-    var ids = '';
-    if (this.state.data.results) {
-      ids = this.state.data.results.map(function (id, i) {
-        if (i < 5) {
-          return (
-            <Item key={id} title={id} score="test" overview="test" backdrop="test" />
-          );
-
-        } else {
-          return (<div key={id}></div>);
-        }
-      });
-    }
-    */
 
     return (
       <div
@@ -121,4 +159,5 @@ export default class TitleList extends Component {
       </div>
     );
   }
-}
+*/
+//}

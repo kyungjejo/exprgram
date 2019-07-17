@@ -71,7 +71,7 @@ class App extends Component {
         </div>
         <div>
           {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-          <VideoPopup title="Harry Poter" category="Fantasy" uploaded_date="2017/08/11" youtube_id="R2zNRrOXbPY"/>
+          {/*<VideoPopup title="Harry Poter" category="Fantasy" uploaded_date="2017/08/11" youtube_id="R2zNRrOXbPY"/>*/}
         </div>
       </div>
     );

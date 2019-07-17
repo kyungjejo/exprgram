@@ -53,6 +53,7 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "async": "^2.6.3",
     "babel-runtime": "^6.25.0",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
