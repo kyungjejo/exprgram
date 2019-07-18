@@ -55,6 +55,7 @@ export default class Item extends Component {
         upload_date: "",
         thumbnails: "",
         category: "",
+        youtube_id: ""
     }
   }
 
@@ -64,7 +65,7 @@ export default class Item extends Component {
     }).then(res=>res.json())
     //.then(res=>res['video_genre'] = eval(res.video_genre))
     //.then(res=>console.log(res))
-    .then(res=>this.setState({title: res.video_title, genre: (res.video_genre), length: res.video_length, upload_date: res.upload_date, thumbnails: (res.video_thumbnails), category: res.video_category}));
+    .then(res=>this.setState({youtube_id: this.props.youtube_id, title: res.video_title, genre: (res.video_genre), length: res.video_length, upload_date: res.upload_date, thumbnails: (res.video_thumbnails), category: res.video_category}));
   }
 
   render() {
@@ -79,12 +80,17 @@ export default class Item extends Component {
         </div>
       </div>
     );*/
-
     return (
-      <div className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }} >
+      <div onClick={() => this.props.handleShowPopup(this.state.title, this.state.genre[0], this.state.upload_date, this.state.youtube_id)} className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }}>
         <div className={style.overlay}>
           <div className={style.title}>{this.state.title}</div>
-          <div className={style.rating}>5 / 10</div>
+          <div className={style.rating}>
+          {this.state.genre.map((genre, i) => {
+              return (
+                <span>{genre}, </span>
+              );
+          })}
+          <span>{this.state.upload_date}, </span> <span>{this.state.length} </span></div>
           <div className={style.plot}>test</div>
           <ListToggle />
         </div>

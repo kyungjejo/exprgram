@@ -34,17 +34,17 @@ export default class TitleList extends Component {
 
   render() {
     var ids = '';
-    console.log(this.state.videos);
+    //console.log(this.state.videos);
     if (this.state.videos) {
-      ids = this.state.videos.map(function (youtube_id, i) {
+      ids = this.state.videos.map((youtube_id, i) => {
           var youtube_id = youtube_id;
 
           return (
-            <Item key={youtube_id.id} youtube_id={youtube_id} />
+            <Item key={youtube_id.id} youtube_id={youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
           );
       });
     }
-    console.log(ids);
+    //console.log(ids);
 
     return (
       <div

@@ -20,12 +20,20 @@ import './global.css';
 class App extends Component {
   apiKey = '87dfa1c669eea853da609d4968d294be';
 
-  state = {
-    searchTerm: '',
-    searchUrl: '',
-    username: null,
-    video: null,
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      searchTerm: '',
+      searchUrl: '',
+      username: null,
+      video: null,
+      show_popup: false,
+      popup_info: []
+    };
+    this.handleShowPopup = this.handleShowPopup.bind(this);
+    this.handleHidePopup = this.handleHidePopup.bind(this);
+  }
+  
 
   componentDidMount() {
     fetch('http://localhost:4000/api/getUsername')
@@ -48,8 +56,19 @@ class App extends Component {
     this.setState({ searchTerm: e.target.value });
   }
 
+  handleShowPopup(title, genre, uploaded_date, youtube_id) {
+    console.log("test");
+    this.setState({ show_popup: true, popup_info: [title, genre, uploaded_date, youtube_id]})
+    console.log([title, genre, uploaded_date, youtube_id])
+  }
+
+  handleHidePopup(e) {
+    this.setState({ show_popup: false});
+  }
+
   render() {
     const username = this.state.username;
+    const show_popup = this.state.show_popup;
     return (
       <div>
         <header className={style.Header}>
@@ -62,15 +81,16 @@ class App extends Component {
         </header>
         {/*<Hero />*/}
         <div style={{marginTop: '100px'}}>
-          <TitleList title="Greeting" url='discover/tv?sort_by=popularity.desc&page=1' />
+          <TitleList title="Greeting" url='discover/tv?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup}/>
           {/*<TitleList title="Search Results" url={this.state.searchUrl} />*/}
-          <TitleList title="School" url='discover/movie?sort_by=popularity.desc&page=1' />
-          <TitleList title="When you meet first" url='genre/27/movies?sort_by=popularity.desc&page=1' />
-          <TitleList title="Strong Voice" url='genre/878/movies?sort_by=popularity.desc&page=1' />
+          <TitleList title="School" url='discover/movie?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
+          <TitleList title="When you meet first" url='genre/27/movies?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
+          <TitleList title="Strong Voice" url='genre/878/movies?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
           {/*<TitleList title="" url='genre/35/movies?sort_by=popularity.desc&page=1' />*/}
         </div>
         <div>
           {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
+          {show_popup ? <VideoPopup handleHidePopup={this.handleHidePopup} title={this.state.popup_info[0]} category={this.state.popup_info[1]} uploaded_date={this.state.popup_info[2]} youtube_id={this.state.popup_info[3]}/> : null}
           {/*<VideoPopup title="Harry Poter" category="Fantasy" uploaded_date="2017/08/11" youtube_id="R2zNRrOXbPY"/>*/}
         </div>
       </div>

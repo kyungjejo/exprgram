@@ -1,11 +1,23 @@
+.PopupOverlay {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 9;
+    background-color: rgba(0,0,0,0.8)
+}
+
 .VideoPopup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    right: 100px;
+    bottom: 100px;
     z-index: 10;
-    width: 90%;
+    /*width: 90%;
     height: 90%;
-    margin: -25% 0 0 -45%;
+    margin: -25% 0 0 -45%;*/
     font-family: sans-serif;
     border: 1px solid black;
 }
@@ -40,7 +52,7 @@
 
 .VideoPopup .Video .VideoPlayer div{
     width: 100%;
-    height: 100%;
+    height: 90%;
 }
 
 .VideoPopup .Video .VideoSubtitle {
@@ -60,6 +72,10 @@
     margin: 0 auto;
     text-align: left;
     overflow: scroll;
+}
+
+.VideoPopup .Video .VideoSubtitle .subtitles p {
+    font-size: 30px;
 }
 
 .VideoPopup .Video .VideoSubtitle .subtitles p span{
