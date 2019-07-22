@@ -38,20 +38,20 @@
   transition: opacity .125s ease;
 }
 .Item .overlay .title {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 200;
   opacity: 0;
   -webkit-transition: opacity .25s ease;
   transition: opacity .25s ease;
 }
 .Item .overlay .rating {
-  font-size: 14px;
+  font-size: 12px;
   opacity: 0;
   -webkit-transition: opacity .25s ease .125s;
   transition: opacity .25s ease .125s;
 }
 .Item .overlay .plot {
-  font-size: 14px;
+  font-size: 12px;
   display: -webkit-box;
   margin-top: 100px;
   font-weight: 300;

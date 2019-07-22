@@ -43,7 +43,7 @@ router.get('/getVideo', (req,res) => {
                 if(!err) {
                     rows = eval(rows[0]);
                     console.log(typeof(rows))
-                    rows['video_genre'] = [eval(rows.video_genre)]
+                    rows['video_genre'] = eval(rows.video_genre)
                     rows['video_snippet'] = eval("("+rows.video_snippet+")")
                     rows['video_tags'] = eval(rows.video_tags)
                     rows['video_thumbnails'] = eval("("+rows.video_thumbnails+")")

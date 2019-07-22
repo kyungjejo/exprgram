@@ -1,3 +1,4 @@
+// Both
 .PopupOverlay {
     position: fixed;
     top: 0px;
@@ -10,15 +11,15 @@
 
 .VideoPopup {
     position: fixed;
-    top: 100px;
-    left: 100px;
-    right: 100px;
-    bottom: 100px;
+    top: 50px;
+    left: 50px;
+    right: 50px;
+    bottom: 50px;
     z-index: 10;
     /*width: 90%;
     height: 90%;
     margin: -25% 0 0 -45%;*/
-    font-family: sans-serif;
+    font-family: "Lato", sans-serif;
     border: 1px solid black;
 }
 
@@ -32,6 +33,8 @@
 .VideoPopup .Header h1{
     display: inline;
 }
+
+// Video Watching Section
 
 .VideoPopup .Video {
     width: 100%;
@@ -52,7 +55,7 @@
 
 .VideoPopup .Video .VideoPlayer div{
     width: 100%;
-    height: 90%;
+    height: 85%;
 }
 
 .VideoPopup .Video .VideoSubtitle {
@@ -93,7 +96,87 @@
     text-align: center;
 }
 
-.VideoPopup .Context .contextform {
-    width: 70%;
+.VideoPopup .Context .ContextInfo {
+    width: 30%;
     margin: 0 auto;
+    text-align: center;
+}
+
+.VideoPopup .Context .ContextInfo h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+// Related Video Section
+
+.VideoPopup .VideoFinished {
+    width: 100%;
+    height: 30%;
+    margin: 0 auto;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%,rgba(0,0,0,0) 100%);
+}
+
+.VideoPopup .VideoFinished .VideoPlayer {
+    width: 100%;
+    height: 100%;
+}
+
+.VideoPopup .VideoFinished .VideoPlayer div{
+    width: 20%;
+    height: 70%;
+    margin: 0 auto;
+    margin-top: 1%;
+}
+
+.VideoPopup .VideoFinished .VideoPlayer a{
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 1%;
+}
+
+.VideoPopup .RelatedSection {
+    width: 100%;
+    height: 70%;
+    background-color: black;
+}
+
+.VideoPopup .RelatedSection h1 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.VideoPopup .RelatedSection .RelatedVideo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.VideoPopup .RelatedSection .RelatedVideo div {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.VideoPopup .RelatedSection .RelatedVideo .RelatedSpeechAct {
+    grid-row: 1;
+    grid-column: 1; 
+}
+
+.VideoPopup .RelatedSection .RelatedVideo .RelatedIntensity {
+    grid-row: 1;
+    grid-column: 2; 
+}
+
+.VideoPopup .RelatedSection .RelatedVideo .RelatedRelationship {
+    grid-row: 2;
+    grid-column: 1; 
+}
+
+.VideoPopup .RelatedSection .RelatedVideo .RelatedFormality {
+    grid-row: 2;
+    grid-column: 2; 
 }

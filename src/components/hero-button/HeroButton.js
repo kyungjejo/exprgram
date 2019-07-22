@@ -12,8 +12,8 @@ import '../../global.css';
  * @example
  * <HeroButton text="Im a Hero!" primary />
  */
-const HeroButton = ({ text, primary }) => (
-  <a href="#" className={style.Button} data-primary={primary}>
+const HeroButton = ({ text, primary, onClickMethod }) => (
+  <a href="#" className={style.Button} data-primary={primary} onClick={onClickMethod}>
     {text}
   </a>
 );

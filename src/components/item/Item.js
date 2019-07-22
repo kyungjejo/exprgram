@@ -55,7 +55,8 @@ export default class Item extends Component {
         upload_date: "",
         thumbnails: "",
         category: "",
-        youtube_id: ""
+        youtube_id: "",
+        tags: [],
     }
   }
 
@@ -65,7 +66,7 @@ export default class Item extends Component {
     }).then(res=>res.json())
     //.then(res=>res['video_genre'] = eval(res.video_genre))
     //.then(res=>console.log(res))
-    .then(res=>this.setState({youtube_id: this.props.youtube_id, title: res.video_title, genre: (res.video_genre), length: res.video_length, upload_date: res.upload_date, thumbnails: (res.video_thumbnails), category: res.video_category}));
+    .then(res=>this.setState({youtube_id: this.props.youtube_id, title: res.video_title, genre: (res.video_genre), length: res.video_length, upload_date: res.upload_date, thumbnails: (res.video_thumbnails), category: res.video_category, tags: res.video_tags}));
   }
 
   render() {
@@ -85,13 +86,32 @@ export default class Item extends Component {
         <div className={style.overlay}>
           <div className={style.title}>{this.state.title}</div>
           <div className={style.rating}>
+            <span>Relationship: Friend</span> <br/>
+            <span>Intensity of Speech: ★★★★☆</span> <br/>
+            <span>Formality: ★☆☆☆☆</span>
+          </div>
+          <div className={style.plot}>
           {this.state.genre.map((genre, i) => {
+            if(i == (this.state.genre.length-1)) {
+              return (
+                <span>{genre} </span>
+              );
+            }
+            else {
               return (
                 <span>{genre}, </span>
               );
+            }
           })}
-          <span>{this.state.upload_date}, </span> <span>{this.state.length} </span></div>
-          <div className={style.plot}>test</div>
+          <span>/ uploaded at: {this.state.upload_date} </span> <span>/ {this.state.length}sec </span>
+          {/*{this.state.tags.map((tag, i) => {
+            if(i < 5) {
+              return (
+                <span>#{tag} </span>
+              );
+            }
+          })}*/}
+          </div>
           <ListToggle />
         </div>
       </div>

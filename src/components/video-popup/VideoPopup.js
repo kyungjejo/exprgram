@@ -6,7 +6,7 @@ import style from './VideoPopup.module.scss';
 import '../../global.css';
 import { relative } from 'path';
 import YouTube from 'react-youtube';
-import ExitButton from '../exit-button'
+import HeroButton from '../hero-button'
 
 /*const VideoPopup = () => (
     <Modal trigger={<Button>Show Modal</Button>}>
@@ -27,10 +27,37 @@ export default class VideoPopup extends Component {
         super(props)
         this.state = {
             subtitle: [],
-            currentTime: 0
+            currentTime: 0,
+            popup_state: true, // true is watching video section, false is realted video section
         }
         this._onPlayGetCurrentTime = this._onPlayGetCurrentTime.bind(this);
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+        this.handleNextPopup = this.handleNextPopup.bind(this);
+        this.handlePreviousPopup = this.handlePreviousPopup.bind(this);
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${this.props.youtube_id}`, {
+            method: 'GET',
+        }).then(res=>res.json())
+        .then(subtitle=>this.setState({subtitle: subtitle}));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${nextProps.youtube_id}`, {
+            method: 'GET',
+        }).then(res=>res.json())
+        .then(subtitle=>this.setState({subtitle: subtitle}));
+
+        this.forceUpdateHandler();
+    }
+
+    handleNextPopup() {
+        this.setState({popup_state: false})
+    }
+
+    handlePreviousPopup() {
+        this.setState({popup_state: true})
     }
 
     _onPlayGetCurrentTime(event) {
@@ -75,22 +102,6 @@ export default class VideoPopup extends Component {
         }, 1000);
     }
 
-    componentDidMount() {
-        fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${this.props.youtube_id}`, {
-            method: 'GET',
-        }).then(res=>res.json())
-        .then(subtitle=>this.setState({subtitle: subtitle}));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        fetch(`http://localhost:4000/getVideoSubtitles?youtube_id=${nextProps.youtube_id}`, {
-            method: 'GET',
-        }).then(res=>res.json())
-        .then(subtitle=>this.setState({subtitle: subtitle}));
-
-        this.forceUpdateHandler();
-    }
-
     forceUpdateHandler(){
         this.forceUpdate();
     };    
@@ -109,10 +120,11 @@ export default class VideoPopup extends Component {
 
         return (
             <div className={style.PopupOverlay}>
+                { this.state.popup_state ? 
                 <div className={style.VideoPopup}>
                 {this.forceUpdateHandler}
                     <div id="header" className={style.Header}>
-                        <h1 style={{marginLeft: '15px'}}>{this.props.title} - {this.props.category}</h1>
+                        <h1 style={{marginLeft: '15px'}}>{this.props.title} / {this.props.category}</h1>
                         <h1 style={{float: 'right', marginRight: '15px'}}>Uploaded Date: {this.props.uploaded_date}</h1>
                     </div>
                     <div id="video" className={style.Video}>
@@ -120,7 +132,7 @@ export default class VideoPopup extends Component {
                             <YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts} onPlay={this._onPlayGetCurrentTime}/>
                             {/*<YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts}/>*/}
                             {/*<object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>*/}
-                            <div style={{margin: '0 auto', marginLeft:'5%', marginRight:'5%', height:'20%'}}>
+                            <div style={{margin: '0 auto', marginLeft:'5%', marginRight:'5%', height:'15%'}}>
                                 {this.state.subtitle.map((sub, i) => {
                                     if(sub[3] == "current") {
                                         return (
@@ -145,22 +157,56 @@ export default class VideoPopup extends Component {
                     <div id="context-form" className={style.Context}>
                         <br/>
                         <h1>Context</h1> <br/>
-                        <p>{this.state.currentTime}</p>
-                        <div className={style.contextform}>
-                            {/*<form>
-                                what <input type="text" />
-                                who <input type="text" />
-                            </form>*/}
+                        <div className={style.ContextInfo}>
+                            <h3>Relationship: Friends</h3>
+                            <h3>Intensity of Speech: ★★★★☆</h3>
+                            <h3>Formality: ★☆☆☆☆</h3>
                         </div>
-                        <div onClick={this.handleHidePopup}>
-                            <ExitButton 
-                                text="Exit"
+                        <div>
+                            <HeroButton 
+                                text="Next"
                                 primary
-                                handleHidePopup={this.props.handleHidePopup}
+                                onClickMethod={this.handleNextPopup}
                             />
                         </div>
                     </div>
                 </div>
+                :
+                <div className={style.VideoPopup}>
+                    <div id="header" className={style.Header}>
+                        <h1 style={{marginLeft: '15px'}}>{this.props.title} / {this.props.category}</h1>
+                        <h1 style={{float: 'right', marginRight: '15px'}}>Uploaded Date: {this.props.uploaded_date}</h1>
+                    </div>
+                    <div id="video-finished" className={style.VideoFinished}>
+                        <div className={style.VideoPlayer}>
+                            <YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts} onPlay={this._onPlayGetCurrentTime}/>
+                            <HeroButton 
+                                text="Back to the Video"
+                                primary
+                                onClickMethod={this.handlePreviousPopup}
+                            />
+                        </div>
+                    </div>
+                    <div id="related-videos" className={style.RelatedSection}>
+                        <br/>
+                        <h1>Watch Realted Videos Together</h1> <br/>
+                        <div className={style.RelatedVideo}>
+                            <div className={style.RelatedSpeechAct}>
+                                Related to 'Greeting'
+                            </div>
+                            <div className={style.RelatedIntensity}>
+                                Intesity ★★★★☆
+                            </div>
+                            <div className={style.RelatedRelationship}>
+                                Related to Friends
+                            </div>
+                            <div className={style.RelatedFormality}>
+                                Formality ★☆☆☆☆
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
             </div>
         );   
     }
