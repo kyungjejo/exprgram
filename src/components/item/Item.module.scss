@@ -23,14 +23,15 @@
 }
 .Item .overlay {
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
   /* IE6-9 */
   padding: 20px;
   position: relative;
+  width: 100%;
   height: 100%;
   pointer-events: none;
   opacity: 0;
@@ -38,6 +39,7 @@
   transition: opacity .125s ease;
 }
 .Item .overlay .title {
+  width: 80%;
   font-size: 16px;
   font-weight: 200;
   opacity: 0;
@@ -45,12 +47,14 @@
   transition: opacity .25s ease;
 }
 .Item .overlay .rating {
+  width: 80%;
   font-size: 12px;
   opacity: 0;
   -webkit-transition: opacity .25s ease .125s;
   transition: opacity .25s ease .125s;
 }
 .Item .overlay .plot {
+  width: 80%;
   font-size: 12px;
   display: -webkit-box;
   margin-top: 100px;

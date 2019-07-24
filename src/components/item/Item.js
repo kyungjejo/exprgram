@@ -82,8 +82,8 @@ export default class Item extends Component {
       </div>
     );*/
     return (
-      <div onClick={() => this.props.handleShowPopup(this.state.title, this.state.genre[0], this.state.upload_date, this.state.youtube_id)} className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }}>
-        <div className={style.overlay}>
+      <div style={{cursor: 'pointer'}} onClick={() => this.props.handleShowPopup(this.state.title, this.state.genre[0], this.state.upload_date, this.state.youtube_id)} className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }}>
+        <div style={{cursor: 'pointer'}} className={style.overlay}>
           <div className={style.title}>{this.state.title}</div>
           <div className={style.rating}>
             <span>Relationship: Friend</span> <br/>
@@ -112,7 +112,7 @@ export default class Item extends Component {
             }
           })}*/}
           </div>
-          <ListToggle />
+          {/*<ListToggle />*/}
         </div>
       </div>
     );

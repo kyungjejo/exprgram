@@ -7,6 +7,7 @@ import '../../global.css';
 import { relative } from 'path';
 import YouTube from 'react-youtube';
 import HeroButton from '../hero-button'
+import Item from '../item'
 
 /*const VideoPopup = () => (
     <Modal trigger={<Button>Show Modal</Button>}>
@@ -121,6 +122,7 @@ export default class VideoPopup extends Component {
         return (
             <div className={style.PopupOverlay}>
                 { this.state.popup_state ? 
+                /* Watching Video Section */
                 <div className={style.VideoPopup}>
                 {this.forceUpdateHandler}
                     <div id="header" className={style.Header}>
@@ -172,6 +174,7 @@ export default class VideoPopup extends Component {
                     </div>
                 </div>
                 :
+                /* Related Video Section */
                 <div className={style.VideoPopup}>
                     <div id="header" className={style.Header}>
                         <h1 style={{marginLeft: '15px'}}>{this.props.title} / {this.props.category}</h1>
@@ -193,16 +196,27 @@ export default class VideoPopup extends Component {
                         <div className={style.RelatedVideo}>
                             <div className={style.RelatedSpeechAct}>
                                 Related to 'Greeting'
+                                <Item youtube_id={this.props.youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
                             </div>
                             <div className={style.RelatedIntensity}>
                                 Intesity ★★★★☆
+                                <Item youtube_id={this.props.youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
                             </div>
                             <div className={style.RelatedRelationship}>
                                 Related to Friends
+                                <Item youtube_id={this.props.youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
                             </div>
                             <div className={style.RelatedFormality}>
                                 Formality ★☆☆☆☆
+                                <Item youtube_id={this.props.youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
                             </div>
+                        </div>
+                        <div>
+                            <HeroButton 
+                                text="Close"
+                                primary
+                                onClickMethod={this.props.handleHidePopup}
+                            />
                         </div>
                     </div>
                 </div>
