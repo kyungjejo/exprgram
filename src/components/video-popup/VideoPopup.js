@@ -132,8 +132,6 @@ export default class VideoPopup extends Component {
                     <div id="video" className={style.Video}>
                         <div className={style.VideoPlayer}>
                             <YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts} onPlay={this._onPlayGetCurrentTime}/>
-                            {/*<YouTube id="youtube-video" videoId={this.props.youtube_id} opts={opts}/>*/}
-                            {/*<object type="text/html" width="100%" height="100%" data={"//www.youtube.com/embed/"+this.props.youtube_id} allowFullScreen></object>*/}
                             <div style={{margin: '0 auto', marginLeft:'5%', marginRight:'5%', height:'15%'}}>
                                 {this.state.subtitle.map((sub, i) => {
                                     if(sub[3] == "current") {

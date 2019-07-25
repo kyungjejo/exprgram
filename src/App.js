@@ -32,6 +32,8 @@ class App extends Component {
     };
     this.handleShowPopup = this.handleShowPopup.bind(this);
     this.handleHidePopup = this.handleHidePopup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
   }
   
 
@@ -47,13 +49,17 @@ class App extends Component {
 
   handleKeyUp(e) {
     if (e.key === 'Enter' && this.state.searchTerm !== '') {
-      var searchUrl = "search/multi?query=" + this.state.searchTerm + "&api_key=" + this.apiKey;
+      //var searchUrl = "search/multi?query=" + this.state.searchTerm + "&api_key=" + this.apiKey;
+      let searchUrl = "http://localhost:4000/searchVideo?search_term=" + this.state.searchTerm;
       this.setState({ searchUrl: searchUrl });
     }
   }
 
   handleChange(e) {
     this.setState({ searchTerm: e.target.value });
+    if (this.state.searchTerm == '') {
+      this.setState({ searchUrl: ''})
+    }
   }
 
   handleShowPopup(title, genre, uploaded_date, youtube_id) {
@@ -69,6 +75,12 @@ class App extends Component {
   render() {
     const username = this.state.username;
     const show_popup = this.state.show_popup;
+    let search_url = false;
+    if (this.state.searchUrl != '' && this.state.searchTerm != '') {
+      search_url = true
+    }
+    console.log(this.state.searchTerm);
+    console.log(this.state.searchUrl);
     return (
       <div>
         <header className={style.Header}>
@@ -81,10 +93,11 @@ class App extends Component {
         </header>
         {/*<Hero />*/}
         <div style={{marginTop: '100px'}}>
-          <TitleList title="Greeting" url='discover/tv?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup}/>
+          {search_url ? <TitleList title="Search Results" url={this.state.searchUrl} show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup}/> : null}
+          <TitleList title="Greeting" show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup}/>
           {/*<TitleList title="Search Results" url={this.state.searchUrl} />*/}
-          <TitleList title="Request" url='discover/movie?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
-          <TitleList title="Apologizing" url='genre/27/movies?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
+          <TitleList title="Request" show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
+          <TitleList title="Apologizing" show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />
           {/*<TitleList title="Strong Voice" url='genre/878/movies?sort_by=popularity.desc&page=1' show_popup={this.state.show_popup} handleShowPopup={this.handleShowPopup} />*/}
           {/*<TitleList title="" url='genre/35/movies?sort_by=popularity.desc&page=1' />*/}
         </div>

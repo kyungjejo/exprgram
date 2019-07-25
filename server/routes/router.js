@@ -35,6 +35,24 @@ router.get('/getVideoSubtitles', (req, res) => {
     });
 });
 
+router.get('/searchVideo', (req, res) => {
+    let search_term = '%'.concat(req.query.search_term.concat('%'));
+    db.query("select youtube_id from video_video where subtitle_whole_lower Like ?", [search_term], (err, rows) => {
+        if(!err) {
+            console.log(rows.length);
+            youtube_ids = []
+            for(let i=0; i < rows.length; i++) {
+                youtube_ids.push(rows[i].youtube_id)
+            }
+            console.log(youtube_ids);
+            res.send(youtube_ids);
+        } else {
+            console.log(`querry error: ${err}`);
+            res.send(err);
+        }
+    });
+});
+
 router.get('/getVideo', (req,res) => {
     db.query("select id from video_video where youtube_id = ?", [req.query.youtube_id], (err, rows) => {
         if(!err) {

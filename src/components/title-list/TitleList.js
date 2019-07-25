@@ -25,11 +25,28 @@ export default class TitleList extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:4000/getVideoCollection`, {
-        method: 'GET',
-    }).then(res=>res.json())
-    //.then(res=>console.log(res))
-    .then(res=>this.setState({videos: res, mounted: true}));
+    if(this.props.url) {
+      fetch(this.props.url, {
+        method: 'GET'
+      }).then(res=>res.json())
+      .then(res=>this.setState({videos: res, mounted: true}));
+    }
+    else {
+      fetch(`http://localhost:4000/getVideoCollection`, {
+          method: 'GET',
+      }).then(res=>res.json())
+      //.then(res=>console.log(res))
+      .then(res=>this.setState({videos: res, mounted: true}));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.url) {
+      fetch(nextProps.url, {
+        method: 'GET'
+      }).then(res=>res.json())
+      .then(res=>this.setState({videos: res, mounted: true}));
+    }
   }
 
   render() {
