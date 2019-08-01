@@ -25,7 +25,7 @@ export default class TitleList extends Component {
   }
 
   componentDidMount() {
-    if(this.props.url) {
+    /*if(this.props.url) {
       fetch(this.props.url, {
         method: 'GET'
       }).then(res=>res.json())
@@ -36,6 +36,18 @@ export default class TitleList extends Component {
           method: 'GET',
       }).then(res=>res.json())
       //.then(res=>console.log(res))
+      .then(res=>this.setState({videos: res, mounted: true}));
+    }*/
+    if(this.props.url) {
+      fetch(this.props.url, {
+        method: 'GET'
+      }).then(res=>res.json())
+      .then(res=>this.setState({videos: res, mounted: true}));
+    }
+    else {
+      fetch(`http://localhost:4000/getVideoMatch?wh=${this.props.title}`, {
+          method: 'GET',
+      }).then(res=>res.json())
       .then(res=>this.setState({videos: res, mounted: true}));
     }
   }
@@ -53,11 +65,13 @@ export default class TitleList extends Component {
     var ids = '';
     //console.log(this.state.videos);
     if (this.state.videos) {
-      ids = this.state.videos.map((youtube_id, i) => {
-          var youtube_id = youtube_id;
+      ids = this.state.videos.map((video, i) => {
+          //console.log(video);
+          var youtube_id = video['youtube_id'];
+          var start_time = video['start_time'];
 
           return (
-            <Item key={youtube_id.id} youtube_id={youtube_id} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
+            <Item key={video.id} youtube_id={youtube_id} start_time={start_time} show_popup={this.props.show_popup} handleShowPopup={this.props.handleShowPopup}/>
           );
       });
     }

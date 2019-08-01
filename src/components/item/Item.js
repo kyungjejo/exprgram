@@ -82,12 +82,12 @@ export default class Item extends Component {
       </div>
     );*/
     return (
-      <div style={{cursor: 'pointer'}} onClick={() => this.props.handleShowPopup(this.state.title, this.state.genre[0], this.state.upload_date, this.state.youtube_id)} className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }}>
+      <div style={{cursor: 'pointer'}} onClick={() => this.props.handleShowPopup(this.state.title, this.state.genre[0], this.state.upload_date, this.state.youtube_id, this.props.start_time)} className={style.Item} style={{ backgroundImage: 'url(' + this.state.thumbnails.url + ')' }}>
         <div style={{cursor: 'pointer'}} className={style.overlay}>
           <div className={style.title}>{this.state.title}</div>
           <div className={style.rating}>
             <span>Relationship: Friend</span> <br/>
-            <span>Intensity of Speech: ★★★★☆</span> <br/>
+            {/*<span>Intensity of Speech: ★★★★☆</span> <br/>*/}
             <span>Formality: ★☆☆☆☆</span>
           </div>
           <div className={style.plot}>

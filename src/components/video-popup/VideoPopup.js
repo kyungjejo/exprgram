@@ -116,9 +116,13 @@ export default class VideoPopup extends Component {
     render() {
         const opts = {
             height: '100%',
-            width: '100%'
+            width: '100%',
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 1,
+                start: Math.floor(this.props.start_time)
+            }
         };
-
+        console.log(opts)
         return (
             <div className={style.PopupOverlay}>
                 { this.state.popup_state ? 

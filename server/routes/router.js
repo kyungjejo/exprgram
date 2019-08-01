@@ -137,6 +137,64 @@ router.get('/getVideoCollection', (req, res) => {
         }
     })*/
 });
+
+router.get('/getVideoMatch', (req, res) => {
+    console.log(req.query.wh)
+    db.query("select video_id, start_time from video_videoquestionset where `wh-category` = ? order by rand() limit 10", [req.query.wh], (err, rows) => {
+        if(!err) {
+            console.log(rows[0].video_id)
+            let result = [];
+            let tasks = [];
+            console.log(rows);
+            
+            for(let i=0; i < rows.length; i++) {
+                tasks.push(
+                    function(callback) {
+                        db.query("select youtube_id from video_video where id = ?", [rows[i].video_id], (err2, youtube_id) => {
+                            if(!err2) {
+                                youtube_id = eval(youtube_id[0]);
+                                console.log((youtube_id.youtube_id));
+                                result.push({
+                                    'youtube_id': youtube_id.youtube_id,
+                                    'start_time': rows[i].start_time
+                                })
+                                //result.push([(youtube_id.youtube_id), rows[i].start_time]);
+                                //result.push([rows[i].start_time, youtube_id.youtube_id]);
+                                callback(null, result);
+                            } else {
+                                console.log(`query error : ${err2}`);
+                                res.send(err2);
+                            }
+                        });
+                    }
+                );
+            }
+
+            tasks.push(
+                function(callback) {
+                    console.log(result);
+                    console.log("Test");
+                    res.send(result);
+                }
+            );
+
+            async.series(tasks, function (error, results) {
+                if (error) console.log(error);
+                else console.log(results);
+            });
+            /*console.log(rows);
+            youtube_ids = []
+            for(let i=0; i < rows.length; i++) {
+                youtube_ids.push(rows[i].youtube_id)
+            }
+            console.log(youtube_ids);
+            res.send(youtube_ids);*/
+        } else {
+            console.log(`query error: ${err}`);
+            res.send(err);
+        }
+    })
+});
     
     
 module.exports = router;
