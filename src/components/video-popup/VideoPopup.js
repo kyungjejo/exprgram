@@ -60,7 +60,7 @@ export default class VideoPopup extends Component {
     handlePreviousPopup() {
         this.setState({popup_state: true})
     }
-
+    
     _onPlayGetCurrentTime(event) {
         setInterval(() => {
             let time = event.target.getCurrentTime();

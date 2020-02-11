@@ -4,6 +4,8 @@ import Item from '../item';
 import PropTypes from 'prop-types';
 import style from './TitleList.module.scss';
 import '../../global.css';
+import Select from 'react-select';
+
 /**
  * @render react
  * @name TitleList
@@ -15,14 +17,26 @@ import '../../global.css';
  * />
  */
 
+/*const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];*/
+
 export default class TitleList extends Component {
   constructor(props) {
       super(props)
       this.state = {
         videos: [],
-        mounted: false
+        mounted: false,
+        //selectedOption: null,
       }
   }
+
+  /*handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };*/
 
   componentDidMount() {
     /*if(this.props.url) {
@@ -82,7 +96,13 @@ export default class TitleList extends Component {
         ref={(r) => { this.titleCategory = r; }}
         className={style.TitleList} data-loaded={this.state.mounted}>
         <div className={style.Title}>
-          <h1>{this.props.title}</h1>
+          <h1 style={{display: 'inline-block', width: '10%'}}>{this.props.title}</h1>
+          {/*<Select
+            value={this.state.selectedOption}
+            onChange={this.handleChange}
+            options={options}
+            style={{display: 'inline-block', width: '20%'}}
+          />*/}
           <div className={style['titles-wrapper']}>
             {ids}
           </div>
