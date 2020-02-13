@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import language_check
 from nltk import bigrams, word_tokenize, sent_tokenize
 from nltk.util import ngrams, pad_sequence, everygrams
@@ -12,6 +14,9 @@ import numpy as np
 import dill as pickle
 import math
 from autocorrect import Speller
+import random
+
+word_list = open('./google-10000-english-no-swears.txt').readlines()
 
 def ngram_language_model(corpus, n):
     # form of corpus: [[word, word, word], [word, word, ..., word]]
@@ -120,8 +125,6 @@ def spelling_checker(sentence_list):
 
 
 if __name__ == '__main__':
-    text = "If I was an idle, I would not go to the workplece."
-
     with open("nytimes_news_articles.txt", "r") as f:
         corpus = f.read().splitlines()
         nytimes_corpus = []
@@ -138,6 +141,31 @@ if __name__ == '__main__':
     #cfd, cpd = bigram_language_model(movie_reviews.sents(), 3)
     print(len(corpus))
     trigram_model = ngram_language_model(corpus, 3)
+
+    vocabulary_size = input('Vocabulary size를 입력해주세요.')
+
+    vocabulary_size = int(vocabulary_size)
+    if vocabulary_size>9000:
+        print('배울 단어가 없습니다.')
+        pass
+
+    else:
+        thousands = vocabulary_size // 1000 + 1
+        if thousands > 8:
+            lower = vocabulary_size
+            upper = len(word_list)
+        else:
+            lower = thousands * 1000
+            upper = (thousands + 1) * 1000
+        candidates = range(lower, upper)
+        word_index = random.choice(candidates)
+        target_word = word_list[word_index]
+        print("Target word: {}".format(target_word))
+
+    
+    text = input('{} --> 단어를 사용한 문장을 입력해주세요.'.format(target_word))
+
+    # text = "If I was an idle, I would not go to the workplece."
     
     correct_texts = grammar_checker(text)
     correct_texts = spelling_checker(correct_texts)
