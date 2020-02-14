@@ -161,6 +161,8 @@ if __name__ == '__main__':
         word_index = random.choice(candidates)
         target_word = word_list[word_index]
         print("Target word: {}".format(target_word))
+        print("Definition: [Placeholder for the word's definition]")
+        print("An example of how to use {} in a sentence.\n[Placeholder for an example sentence]")
 
     
     text = input('{} --> 단어를 사용한 문장을 입력해주세요.'.format(target_word))
